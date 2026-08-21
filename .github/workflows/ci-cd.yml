@@ -42,6 +42,7 @@ jobs:
       - name: Run Trivy Vulnerability Scanner on Container Image
         uses: aquasecurity/trivy-action@master
         with:
+          scan-type: 'image'
           image-ref: 'aegismind-sre:latest'
           format: 'table'
           exit-code: '0'

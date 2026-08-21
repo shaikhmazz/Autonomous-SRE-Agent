@@ -18,6 +18,10 @@ FROM python:3.11-slim AS runner
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create non-root system user for security best practices
 RUN groupadd -g 10001 aegisgroup && \
     useradd -u 10001 -g aegisgroup -s /bin/sh -m aegisuser
