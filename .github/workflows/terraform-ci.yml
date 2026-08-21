@@ -2,11 +2,9 @@ name: Terraform Infrastructure CI/CD
 
 on:
   push:
-    paths:
-      - 'terraform/**'
+    branches: [ main, master ]
   pull_request:
-    paths:
-      - 'terraform/**'
+    branches: [ main, master ]
 
 jobs:
   terraform:
@@ -31,8 +29,11 @@ jobs:
       - name: Terraform Validate
         run: terraform -chdir=terraform validate
 
-      - name: Run tfsec Security Scanner
-        uses: aquasecurity/tfsec-action@v1.0.0
+      - name: Run Trivy IaC Security Scanner
+        uses: aquasecurity/trivy-action@master
         with:
-          working_directory: terraform/
-          soft_fail: true
+          scan-type: 'config'
+          scan-ref: 'terraform/'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
