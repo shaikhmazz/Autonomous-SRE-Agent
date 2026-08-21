@@ -42,10 +42,10 @@ function updateMetrics(m) {
     
     const badge = document.getElementById("badge-active-alerts");
     if (m.active_alerts > 0) {
-        badge.className = "metric-badge badge-warning";
+        badge.className = "metric-pill pill-warning";
         badge.textContent = `${m.active_alerts} Alerting`;
     } else {
-        badge.className = "metric-badge badge-success";
+        badge.className = "metric-pill pill-emerald";
         badge.textContent = "0 Active";
     }
 }
@@ -55,8 +55,11 @@ function renderIncidentsList(incidents) {
     if (!incidents || incidents.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">🌱</div>
-                <p>No active incidents. Cluster operational and healthy.</p>
+                <div class="empty-icon-wrap">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h3>System Healthy</h3>
+                <p>No active incidents. Cluster operational and guarded by AegisMind Core Engine.</p>
             </div>
         `;
         return;
@@ -75,7 +78,7 @@ function renderIncidentsList(incidents) {
                 <div class="inc-alert-name">${inc.alertname}</div>
                 <div class="inc-details">
                     <span>Target: <strong>${inc.target_resource}</strong></span>
-                    <span>Ns: <strong>${inc.namespace}</strong></span>
+                    <span>Namespace: <strong>${inc.namespace}</strong></span>
                 </div>
             </div>
         `;
@@ -107,18 +110,18 @@ function renderRCADetails(incId) {
         </div>
 
         <div class="rca-block">
-            <h4>🤖 AI Root Cause Analysis</h4>
+            <h4>AI Root Cause Diagnostics</h4>
             <p class="rca-text">${inc.root_cause_analysis}</p>
         </div>
 
         <div class="rca-block action-card">
-            <h4>⚡ Recommended Self-Healing Action</h4>
+            <h4>Recommended Self-Healing Action</h4>
             <p class="rca-text">Action: <strong>${inc.recommended_action}</strong></p>
             <div class="code-box">${actionJson}</div>
         </div>
 
         <div class="rca-block">
-            <h4>🛠️ K8s Control Plane Execution Status</h4>
+            <h4>K8s Control Plane Execution Log</h4>
             <div class="code-box">${remediationRes}</div>
         </div>
     `;
@@ -137,7 +140,7 @@ async function submitChaosScenario() {
     closeChaosModal();
 
     try {
-        const resp = await fetch(`${API_BASE}/api/v1/chaos/trigger`, {
+        const resp = await fetch(`${API_BASE}/api/v1/incidents/simulate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
