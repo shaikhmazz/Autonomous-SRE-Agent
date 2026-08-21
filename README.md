@@ -1,7 +1,7 @@
 # 🛡️ AegisMind SRE — Autonomous AI Incident Remediation & Root-Cause Operator
 
-[![Build & Deploy CI/CD](https://github.com/aegismind/aegismind-sre/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/aegismind/aegismind-sre/actions)
-[![Terraform Audit](https://github.com/aegismind/aegismind-sre/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/aegismind/aegismind-sre/actions)
+[![Build & Deploy CI/CD](https://github.com/shaikhmazz/Autonomous-SRE-Agent/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/shaikhmazz/Autonomous-SRE-Agent/actions)
+[![Terraform Audit](https://github.com/shaikhmazz/Autonomous-SRE-Agent/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/shaikhmazz/Autonomous-SRE-Agent/actions)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![AWS EKS](https://img.shields.io/badge/AWS-EKS_1.28-FF9900.svg?logo=amazon-aws&logoColor=white)](https://aws.amazon.com/eks/)
@@ -144,8 +144,8 @@ project-root/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/aegismind-sre.git
-cd aegismind-sre
+git clone https://github.com/shaikhmazz/Autonomous-SRE-Agent.git
+cd Autonomous-SRE-Agent
 
 # Create and activate local virtual environment
 uv venv
