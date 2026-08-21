@@ -1,0 +1,35 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: aegismind-alerting-rules
+  namespace: monitoring
+  labels:
+    role: alert-rules
+spec:
+  groups:
+    - name: aegismind.sre.rules
+      rules:
+        - alert: KubeMemoryOverbudgetOOM
+          expr: container_memory_working_set_bytes{container!=""} / container_spec_memory_limit_bytes > 0.95
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Memory saturation exceeded 95% threshold in {{ $labels.pod }}"
+            description: "Workload container is nearing OOMKilled eviction limit."
+
+        - alert: KubePodCrashLooping
+          expr: rate(kube_pod_container_status_restarts_total[5m]) * 60 > 2
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Pod {{ $labels.pod }} is in CrashLoopBackOff cycle"
+
+        - alert: KubeCPUThrottlingHigh
+          expr: rate(container_cpu_cfs_throttled_periods_total[5m]) / rate(container_cpu_cfs_periods_total[5m]) > 0.75
+          for: 3m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU throttling (>75%) observed for {{ $labels.pod }}"

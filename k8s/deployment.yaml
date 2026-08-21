@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegismind-sre-engine
+  namespace: default
+  labels:
+    app: aegismind-sre-engine
+    component: control-plane
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: aegismind-sre-engine
+  template:
+    metadata:
+      labels:
+        app: aegismind-sre-engine
+    spec:
+      serviceAccountName: aegismind-sre-sa
+      containers:
+        - name: aegismind-engine
+          image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/aegismind-sre-engine:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              name: http
+          envFrom:
+            - configMapRef:
+                name: aegismind-config
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5

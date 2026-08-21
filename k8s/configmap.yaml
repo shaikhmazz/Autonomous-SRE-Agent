@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aegismind-config
+  namespace: default
+data:
+  AI_PROVIDER: "heuristics_plus_llm"
+  DRY_RUN: "false"
+  LOG_LEVEL: "INFO"
+  PROMETHEUS_ENDPOINT: "http://prometheus-k8s.monitoring.svc.cluster.local:9090"
+  REMEDIATION_CONFIDENCE_THRESHOLD: "0.80"

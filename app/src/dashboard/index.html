@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AegisMind SRE — Autonomous AI Control Plane Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">🛡️</div>
+                <div class="brand-text">
+                    <span class="brand-name">AegisMind</span>
+                    <span class="brand-tag">SRE AI OPERATOR</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" id="nav-dashboard">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-incidents">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    <span>Incident History</span>
+                </a>
+                <a href="#" class="nav-item" id="nav-chaos">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Chaos Simulator</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-pulse"></span>
+                    <span class="status-label">Cluster Live: AWS EKS</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-title">
+                    <h1>Autonomous SRE Control Center</h1>
+                    <p class="subtitle">Real-time Telemetry, AI Root-Cause Analysis & Kubernetes Self-Healing</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="triggerChaosModal()">⚡ Inject Incident Scenario</button>
+                    <button class="btn btn-secondary" onclick="fetchLiveData()">🔄 Refresh</button>
+                </div>
+            </header>
+
+            <!-- Metrics Overview Cards -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">System Health</span>
+                        <span class="metric-badge badge-success">SLA OK</span>
+                    </div>
+                    <div class="metric-value" id="val-health">99.98%</div>
+                    <div class="metric-sub">Target SLA: 99.90%</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Auto-Remediated</span>
+                        <span class="metric-icon">🤖</span>
+                    </div>
+                    <div class="metric-value text-cyan" id="val-remediated">13</div>
+                    <div class="metric-sub">Zero Human Intervention</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Mean Time To Repair (MTTR)</span>
+                        <span class="metric-icon">⏱️</span>
+                    </div>
+                    <div class="metric-value text-purple" id="val-mttr">4.2s</div>
+                    <div class="metric-sub">Industry Avg: 45 min</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-label">Active Alerts</span>
+                        <span class="metric-badge badge-warning" id="badge-active-alerts">0 Active</span>
+                    </div>
+                    <div class="metric-value text-emerald" id="val-active-alerts">0</div>
+                    <div class="metric-sub">K8s Core Engine Guarding</div>
+                </div>
+            </section>
+
+            <!-- Content Split: Incidents Stream & RCA AI Panel -->
+            <div class="dashboard-split">
+                <!-- Left Panel: Live Incident Feed -->
+                <section class="panel incident-feed-panel">
+                    <div class="panel-header">
+                        <h2>Live Incident Telemetry Feed</h2>
+                        <span class="pulse-indicator">LIVE MONITORING</span>
+                    </div>
+                    <div class="incident-list" id="incident-list-container">
+                        <!-- Dynamic Incident Cards Inserted via JS -->
+                        <div class="loading-spinner">Loading AegisMind Telemetry...</div>
+                    </div>
+                </section>
+
+                <!-- Right Panel: AI Root Cause Analysis Inspector -->
+                <section class="panel rca-panel">
+                    <div class="panel-header">
+                        <h2>AI Root-Cause Diagnosis (RCA)</h2>
+                        <span class="badge badge-ai" id="rca-confidence-tag">AI Confidence: --</span>
+                    </div>
+                    <div class="rca-content" id="rca-detail-container">
+                        <div class="empty-state">
+                            <div class="empty-icon">🔍</div>
+                            <h3>Select an incident from the feed</h3>
+                            <p>Inspect AI-generated root cause analysis, telemetry correlation, and executed Kubernetes self-healing actions.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chaos Injection Modal -->
+    <div class="modal-overlay" id="chaos-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⚡ Inject Chaos Scenario (Fault Simulation)</h3>
+                <button class="modal-close" onclick="closeChaosModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Select a simulated failure mode to test AegisMind's automated RCA and self-healing response:</p>
+                <div class="scenario-options">
+                    <label class="scenario-option">
+                        <input type="radio" name="scenario" value="OOMKilled" checked>
+                        <div class="option-card">
+                            <span class="option-title">💥 OOMKilled Memory Saturation</span>
+                            <span class="option-desc">Simulates 98%+ RAM exhaustion. AegisMind triggers dynamic Scale-Out & pod memory limit patch.</span>
+                        </div>
+                    </label>
+                    <label class="scenario-option">
+                        <input type="radio" name="scenario" value="CrashLoopBackOff">
+                        <div class="option-card">
+                            <span class="option-title">🔄 CrashLoopBackOff Runtime Failure</span>
+                            <span class="option-desc">Simulates container startup panic. AegisMind executes instant Canary Rollback.</span>
+                        </div>
+                    </label>
+                    <label class="scenario-option">
+                        <input type="radio" name="scenario" value="HighCPUThrottle">
+                        <div class="option-card">
+                            <span class="option-title">🔥 High CPU Throttling Burst</span>
+                            <span class="option-desc">Simulates traffic spike & queue backlog. AegisMind scales replicas up.</span>
+                        </div>
+                    </label>
+                    <label class="scenario-option">
+                        <input type="radio" name="scenario" value="ConfigFailure">
+                        <div class="option-card">
+                            <span class="option-title">🔑 ConfigMap / Secret Desync</span>
+                            <span class="option-desc">Simulates broken DB endpoint. AegisMind re-syncs ConfigMaps & restarts pod.</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeChaosModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="submitChaosScenario()">Launch Chaos Incident</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

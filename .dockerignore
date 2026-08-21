@@ -1,0 +1,17 @@
+# Docker Ignore Rules
+.git
+.gitignore
+.github
+README.md
+terraform/
+k8s/
+scripts/
+*.md
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv/
+.pytest_cache
+.coverage

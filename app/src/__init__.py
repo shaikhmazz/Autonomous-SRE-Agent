@@ -1,0 +1,3 @@
+"""
+AegisMind Source Package
+"""
